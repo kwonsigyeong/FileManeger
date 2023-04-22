@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">
+      File manager
+    </title>
+    <script
+      src="https://kit.fontawesome.com/0aa3e8f9ce.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/files.css}" />
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/reset.css}"> -->
+  </head>
+  <body>
+    <div class="main-content">
+      <div class="top-bar">
+        <h2>home</h2>
+      </div>
+      <div class="content-area">
+        <div layout:fragment="content"></div>
+      </div>
+    </div>
+    <div class="drawer">
+      <div class="drawer_container">
+        <a href="/filesPage">
+          <div class="drawer_container_item files">
+            <i class="fa-solid fa-file"></i>
+            <span>files</span>
+          </div>
+        </a>
+
+        <a href="/searchPage">
+          <div class="drawer_container_item search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>search</span>
+          </div>
+        </a>
+
+        <a href="/settingPage">
+          <div class="drawer_container_item setting">
+            <i class="fa-solid fa-gear"></i>
+            <span>setting</span>
+          </div>
+        </a>
+
+        <a href="/dashBoardPage">
+          <div class="drawer_container_item dashboard">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>dash board</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -6,30 +6,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-    @RequestMapping("/")
+    @RequestMapping("/layout/toolBar")
     public String toolBar() {
-        return "layout/toolBar";
+        return "layout/index";
     }
 
-    @RequestMapping("filesPage")
+    @RequestMapping("/filesPage")
     public String files(){
         return "pages/files";
     }
-   @RequestMapping("searchPage")
+
+   @RequestMapping("/searchPage")
     public String search(){
         return "pages/search";
     }
-   @RequestMapping("settingPage")
+   @RequestMapping("/settingPage")
     public String setting(){
         return "pages/setting";
     }
-    @RequestMapping("dashBoardPage")
+    @RequestMapping("/dashBoardPage")
     public String dashBoard(){
         return "pages/dashBoard";
     }
-   @RequestMapping("login")
-    public String login(){
-        return "pages/login";
-    }
+
+
 
 }
