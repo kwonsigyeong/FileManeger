@@ -1,13 +1,12 @@
-package com.example.filemaneger.payload;
+package com.example.filemaneger.file.dto;
 
-
-public class UploadFileResponse {
+public class FileUploadDTO {
     private String fileName;
     private String fileDownloadUri;
     private String fileType;
     private long size;
 
-    public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
+    public FileUploadDTO(String fileName, String fileDownloadUri, String fileType, long size) {
         this.fileName = fileName;
         this.fileDownloadUri = fileDownloadUri;
         this.fileType = fileType;

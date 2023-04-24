@@ -1,10 +1,8 @@
 package com.example.filemaneger.controller;
 
-import com.example.filemaneger.payload.UploadFileResponse;
-import com.example.filemaneger.service.FileStorageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.filemaneger.file.dto.FileUploadDTO;
+import com.example.filemaneger.file.service.FileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,36 +10,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
+@Slf4j
 public class FileController {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+    private final FileService fileService;
 
-    @Autowired
-    private FileStorageService fileStorageService;
+    public FileController(FileService fileService) {
+        this.fileService = fileService;
+    }
 
+
+    //단일 파일 업로드
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
-
+    public FileUploadDTO uploadFile(@RequestParam("file") MultipartFile file) {
+        String fileName = fileService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString();
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
+
+        return new FileUploadDTO(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+    public List<FileUploadDTO> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files)
                 .stream()
                 .map(file -> uploadFile(file))
@@ -50,26 +53,27 @@ public class FileController {
 
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
 
-        // Try to determine file's content type
+        // 파일을 Resource타입으로 받아온다.
+        Resource resource = fileService.loadFileAsResource(fileName);
+        // 파일 content type 확인 (jpg, png 등..)
+        String encodedFileName = null;
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+            encodedFileName = URLEncoder.encode(resource.getFilename(),"UTF-8").replaceAll("\\+", "%20");
         } catch (IOException ex) {
-            logger.info("Could not determine file type.");
+            log.info("Could not determine file type.");
         }
 
-        // Fallback to the default content type if type could not be determined
+        // 파일 타입을 알 수 없는 경우의 기본값
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
                 .body(resource);
     }
-
 }

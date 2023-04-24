@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-    @RequestMapping("/layout/toolBar")
+    @RequestMapping("/layout/index")
     public String toolBar() {
         return "layout/index";
     }

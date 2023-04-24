@@ -1,50 +1,47 @@
 <!DOCTYPE html>
 <html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="layout/index"
->
-  <head>
-    <meta charset="UTF-8" />
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="layout/index">
+<head>
+    <meta charset="UTF-8"/>
     <title>Files</title>
-  </head>
-  <body layout:fragment="content">
-    <div class="upload-container">
-    <h1>files upload & download area</h1>
+</head>
+<body layout:fragment="content">
 
-      <div class="upload-content">
+<div class="upload-container">
+    <div class="upload-header">
+        <h2>Spring Boot File Upload / Download 예제</h2>
+    </div>
+
+    <div class="upload-content">
         <div class="single-upload">
-          <h3>Upload Single File</h3>
-          <form id="singleUploadForm" name="singleUploadForm">
-            <input id="singleFileUploadInput" type="file" name="file" class="file-input" required />
-            <button type="submit" class="primary submit-btn">Submit</button>
-          </form>
+            <h3>Upload Single File</h3>
+            <form id="singleUploadForm" name="singleUploadForm">
+                <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>
+                <button type="submit" class="primary submit-btn">Submit</button>
+            </form>
+            <div class="upload-response">
+                <div id="singleFileUploadError"></div>
+                <div id="singleFileUploadSuccess"></div>
+            </div>
         </div>
 
         <div class="multiple-upload">
-          <h3>Upload Multiple Files</h3>
-          <form id="multipleUploadForm" name="multipleUploadForm">
-            <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required />
-            <button type="submit" class="primary submit-btn">Submit</button>
-          </form>
+            <h3>Upload Multiple Files</h3>
+            <form id="multipleUploadForm" name="multipleUploadForm">
+                <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required/>
+                <button type="submit" class="primary submit-btn">Submit</button>
+            </form>
+
+            <div class="upload-response">
+                <div id="multipleFileUploadError"></div>
+                <div id="multipleFileUploadSuccess"></div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div style="background-color: chartreuse">
-      <h1>file list area</h1>
-
-      <div class="upload-response">
-        <div id="singleFileUploadError"></div>
-        <div id="singleFileUploadSuccess"></div>
-      </div>
-
-      <div class="upload-response">
-        <div id="multipleFileUploadError"></div>
-        <div id="multipleFileUploadSuccess"></div>
-      </div>
-    </div>
-
-    <script type="text/javascript" th:src="@{/js/files.js}"></script>
-  </body>
+<script type="text/javascript" th:src="@{/js/files.js}"></script>
+</body>
 </html>

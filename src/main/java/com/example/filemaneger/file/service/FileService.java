@@ -1,10 +1,10 @@
-package com.example.filemaneger.service;
+package com.example.filemaneger.file.service;
 
+import com.example.filemaneger.file.exception.FileNotFoundException;
+import com.example.filemaneger.file.exception.FileStorageException;
 
-import com.example.filemaneger.exception.FileStorageException;
-import com.example.filemaneger.exception.MyFileNotFoundException;
-import com.example.filemaneger.property.FileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,53 +18,61 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class FileStorageService {
+public class FileService {
 
-    private final Path fileStorageLocation;
+
+    private final Environment env;
+    private final Path fileLocation;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-                .toAbsolutePath().normalize();
+    public FileService(Environment env) {
+        this.env = env;
+        this.fileLocation = Paths.get(env.getProperty("file.uploadDir")).toAbsolutePath().normalize();
+
 
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(this.fileLocation);
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
-    }
 
+    }
     public String storeFile(MultipartFile file) {
-        // Normalize file name
+
+        // cleanPath : 역슬래시를 /슬래시로 바꿔줌
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+
         try {
-            // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            // 저장할 fileStorageLocation 경로 뒤에 파일명을 붙여준다. (경로 조합)
+            Path targetLocation = this.fileLocation.resolve(fileName);
+            //업로드할 file을 targetLocation에 복사한다. (동일한 이름일 경우 replace)
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return fileName;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+
     }
 
     public Resource loadFileAsResource(String fileName) {
+
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Path filePath = this.fileLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
-                throw new MyFileNotFoundException("File not found " + fileName);
+                throw new FileNotFoundException("File not found " + fileName);
             }
         } catch (MalformedURLException ex) {
-            throw new MyFileNotFoundException("File not found " + fileName, ex);
+            throw new FileNotFoundException("File not found " + fileName, ex);
         }
+
     }
 }

@@ -1,6 +1,7 @@
-package com.example.filemaneger.exception;
+package com.example.filemaneger.file.exception;
 
 public class FileStorageException extends RuntimeException {
+
     public FileStorageException(String message) {
         super(message);
     }
