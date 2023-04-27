@@ -10,7 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import javax.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
@@ -27,6 +28,8 @@ public class FileController {
     public FileController(FileService fileService) {
         this.fileService = fileService;
     }
+
+
 
 
     //단일 파일 업로드
@@ -53,7 +56,6 @@ public class FileController {
 
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-
         // 파일을 Resource타입으로 받아온다.
         Resource resource = fileService.loadFileAsResource(fileName);
         // 파일 content type 확인 (jpg, png 등..)
@@ -61,19 +63,25 @@ public class FileController {
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-            encodedFileName = URLEncoder.encode(resource.getFilename(),"UTF-8").replaceAll("\\+", "%20");
+            encodedFileName = URLEncoder.encode(resource.getFilename(), "UTF-8").replaceAll("\\+", "%20");
         } catch (IOException ex) {
             log.info("Could not determine file type.");
         }
 
         // 파일 타입을 알 수 없는 경우의 기본값
-        if(contentType == null) {
+        if (contentType == null) {
             contentType = "application/octet-stream";
         }
 
+        HttpHeaders headers = new HttpHeaders();
+
+
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"");
+
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+                .headers(headers)
                 .body(resource);
     }
+
 }

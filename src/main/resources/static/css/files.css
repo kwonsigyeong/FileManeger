@@ -46,3 +46,10 @@ body {
     height: auto;
     background-color: aqua;
 }
+
+.link-area{
+    background-color: greenyellow;
+}
+.upload-response{
+    border: 1px solid black;
+}

@@ -11,7 +11,7 @@
 
 <div class="upload-container">
     <div class="upload-header">
-        <h2>Spring Boot File Upload / Download 예제</h2>
+        <h2>File Upload / Download</h2>
     </div>
 
     <div class="upload-content">
@@ -21,10 +21,7 @@
                 <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>
                 <button type="submit" class="primary submit-btn">Submit</button>
             </form>
-            <div class="upload-response">
-                <div id="singleFileUploadError"></div>
-                <div id="singleFileUploadSuccess"></div>
-            </div>
+
         </div>
 
         <div class="multiple-upload">
@@ -34,11 +31,25 @@
                 <button type="submit" class="primary submit-btn">Submit</button>
             </form>
 
+
+        </div>
+
+        <div class="link-area">
+            <h1>file links</h1>
+
+            <div class="upload-response ">
+                <h3>single</h3>
+                <div id="singleFileUploadError"></div>
+                <div id="singleFileUploadSuccess"></div>
+            </div>
+
             <div class="upload-response">
+                <h3>multiple</h3>
                 <div id="multipleFileUploadError"></div>
                 <div id="multipleFileUploadSuccess"></div>
             </div>
         </div>
+
     </div>
 </div>
 
