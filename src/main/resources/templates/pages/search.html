@@ -8,7 +8,41 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>search</h1>
+    <div class="search">
+        <form method="get" action="/searchPage">
+            <input type="text" name="search">
+            <button>검색</button>
+        </form>
+    </div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>file name</th>
+            <th>file path</th>
+            <th>file size</th>
+            <th>file type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file : ${list}">
+            <td th:text="${file.fileName}"></td>
+            <td th:text="${file.filePath}"></td>
+            <td th:text="${file.fileSize}"></td>
+            <td th:text="${file.fileType}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="width: 300px; text-align: center;">
+        <th:block th:each="num : ${#numbers.sequence(1, list.totalPages)}">
+            <a class="page active" th:if="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>
+            <a class="page" th:unless="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>
+        </th:block>
+    </div>
+
+
 </div>
 </body>
 </html>

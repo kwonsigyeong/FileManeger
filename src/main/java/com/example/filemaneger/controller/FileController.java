@@ -1,7 +1,7 @@
 package com.example.filemaneger.controller;
 
 import com.example.filemaneger.file.dto.FileUploadDTO;
-import com.example.filemaneger.file.service.FileService;
+import com.example.filemaneger.file.service.FileServiceByJPA;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileController {
 
-    private final FileService fileService;
+    private final FileServiceByJPA fileServiceByJPA;
 
-    public FileController(FileService fileService) {
-        this.fileService = fileService;
+    public FileController(FileServiceByJPA fileServiceByJPA) {
+        this.fileServiceByJPA = fileServiceByJPA;
     }
 
 
@@ -35,7 +35,7 @@ public class FileController {
     //단일 파일 업로드
     @PostMapping("/uploadFile")
     public FileUploadDTO uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileService.storeFile(file);
+        String fileName = fileServiceByJPA.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
@@ -57,7 +57,7 @@ public class FileController {
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // 파일을 Resource타입으로 받아온다.
-        Resource resource = fileService.loadFileAsResource(fileName);
+        Resource resource = fileServiceByJPA.loadFileAsResource(fileName);
         // 파일 content type 확인 (jpg, png 등..)
         String encodedFileName = null;
         String contentType = null;
