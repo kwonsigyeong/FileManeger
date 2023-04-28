@@ -73,6 +73,7 @@ public class FileServiceByJPA implements FileService{
                     .fileName(FilenameUtils.removeExtension(fileName))
                     .fileExtension(FilenameUtils.getExtension(fileName))
                     .fileType(file.getContentType())
+                    .downloadLink("http://localhost:8081/downloadFile/" + fileName)
                     .build();
 
             fileRepository.save(fileEntity);

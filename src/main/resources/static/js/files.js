@@ -20,7 +20,7 @@ function uploadSingleFile(file) {
     xhr.onload = function() {
         console.log(xhr.responseText);
         var response = JSON.parse(xhr.responseText);
-        if(xhr.status == 200) {
+        if(xhr.status === 200) {
             singleFileUploadError.style.display = "none";
             singleFileUploadSuccess.innerHTML = "<p>File Uploaded Successfully.</p>" +
                 "<p>DownloadUrl : <a href='" + response.fileDownloadUri + "' target='_blank'>"

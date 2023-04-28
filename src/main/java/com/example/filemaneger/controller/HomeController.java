@@ -20,6 +20,7 @@ public class HomeController {
     @Autowired
     private FileService fileService;
 
+
     @RequestMapping("/layout/index")
     public String toolBar(Model model) {
         model.addAttribute("title", "home");
@@ -61,7 +62,6 @@ public class HomeController {
                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber){
 
         Page<FilesEntity> fileList = fileService.getPagingList(pageNumber - 1);
-
 
         model.addAttribute("list", fileList);
         model.addAttribute("title", "fileList");

@@ -34,6 +34,8 @@ public class FilesEntity extends BaseEntity{
     @Column(name = "file_extension")
     private String fileExtension;
 
+    @Column(name = "download_link")
+    private String downloadLink;
 
 
 }

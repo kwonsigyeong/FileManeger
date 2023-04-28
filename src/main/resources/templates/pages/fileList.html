@@ -19,6 +19,7 @@
       <th>file path</th>
       <th>file size</th>
       <th>file type</th>
+      <th>Down load</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
       <td th:text="${file.filePath}"></td>
       <td th:text="${file.fileSize}"></td>
       <td th:text="${file.fileType}"></td>
+      <td ><a th:href="@{{id}(id=${file.downloadLink})}" target='_blank'>Download</a></td>
     </tr>
     </tbody>
   </table>
