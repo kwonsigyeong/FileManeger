@@ -5,12 +5,25 @@
 <head>
     <meta charset="UTF-8">
     <title>search</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-top: 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border-bottom: 1px solid #444444;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" class="flex justify-center flex-col items-center">
     <div class="search">
         <form method="get" action="/searchPage">
-            <input type="text" name="search">
+            <input type="text" name="search" class="border-solid border-2 border-black" placeholder="search"/>
             <button>검색</button>
         </form>
     </div>
@@ -38,7 +51,7 @@
         </tbody>
     </table>
 
-    <div style="width: 300px; text-align: center;">
+    <div style="width: 300px; text-align: center;" >
         <th:block th:each="num : ${#numbers.sequence(1, list.totalPages)}">
             <a class="page active" th:if="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>
             <a class="page" th:unless="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>

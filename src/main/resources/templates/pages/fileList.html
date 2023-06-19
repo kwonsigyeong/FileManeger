@@ -2,15 +2,25 @@
 <html
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="layout/index"
->
+        layout:decorate="layout/index">
 <head>
   <meta charset="UTF-8" />
   <title>file list</title>
+  <style>
+    table {
+      width: 100%;
+      border-top: 1px solid #444444;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border-bottom: 1px solid #444444;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
-<div layout:fragment="content">
-  <h1>file List</h1>
+<div layout:fragment="content" class="flex justify-center flex-col items-center" >
 
   <table>
     <thead>
@@ -19,7 +29,8 @@
       <th>file path</th>
       <th>file size</th>
       <th>file type</th>
-      <th>Down load</th>
+      <th>Download</th>
+      <th>delete</th>
     </tr>
     </thead>
     <tbody>
@@ -29,11 +40,12 @@
       <td th:text="${file.fileSize}"></td>
       <td th:text="${file.fileType}"></td>
       <td ><a th:href="@{{id}(id=${file.downloadLink})}" target='_blank'>Download</a></td>
+      <td ><a th:href="|/removeFile?fileName=${file.filePath}|">delete</a></td>
     </tr>
     </tbody>
   </table>
 
-  <div style="width: 300px; text-align: center;">
+  <div style="width: 300px; text-align: center;" >
     <th:block th:each="num : ${#numbers.sequence(1, list.totalPages)}">
       <a class="page active" th:if="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>
       <a class="page" th:unless="${list.number == (num - 1)}"   th:text="${num}"  th:href="|/fileListPage?pageNumber=${num}|"></a>

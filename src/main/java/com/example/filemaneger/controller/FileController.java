@@ -7,13 +7,22 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,8 +39,6 @@ public class FileController {
     }
 
 
-
-
     //단일 파일 업로드
     @PostMapping("/uploadFile")
     public FileUploadDTO uploadFile(@RequestParam("file") MultipartFile file) {
@@ -42,8 +49,7 @@ public class FileController {
                 .toUriString();
 
 
-        return new FileUploadDTO(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize());
+        return new FileUploadDTO(fileName, fileDownloadUri, file.getContentType(), file.getSize());
     }
 
     @PostMapping("/uploadMultipleFiles")
@@ -83,6 +89,26 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .headers(headers)
                 .body(resource);
+    }
+
+    @GetMapping("/removeFile")
+    public String removeFile(Model model,
+                             @RequestParam(value = "deleteFile") String deleteFile)
+            throws UnsupportedEncodingException {
+
+        String srcFileName = URLDecoder.decode(deleteFile,"UTF-8");
+        Path filePath = Paths.get(srcFileName);
+
+
+        try {
+            Files.delete(filePath);
+        }catch (DirectoryNotEmptyException e) {
+            System.out.println("디렉토리가 비어있지 않습니다");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "pages/delete";
     }
 
 }

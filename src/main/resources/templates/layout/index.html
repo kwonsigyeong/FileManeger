@@ -12,24 +12,19 @@
       src="https://kit.fontawesome.com/0aa3e8f9ce.js"
       crossorigin="anonymous"
     ></script>
-
-    <link rel="stylesheet" type="text/css" th:href="@{/css/files.css}" />
-    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/reset.css}"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      a {
+        margin: 30px;
+      }
+    </style>
   </head>
   <body>
-    <div class="main-content">
-      <div class="top-bar">
-        <h2 th:text="${title}"></h2>
-      </div>
-      <div class="content-area">
-        <div layout:fragment="content"></div>
-      </div>
-    </div>
-    <div class="drawer">
-      <div class="drawer_container">
+    <div class="drawer flex p-6 bg-black text-white">
+      <div class="drawer_container flex">
         <a href="/filesPage">
           <div class="drawer_container_item files">
-            <i class="fa-solid fa-file"></i>
+            <i class="fa-solid fa-file "></i>
             <span>files</span>
           </div>
         </a>
@@ -61,6 +56,15 @@
             <span>dash board</span>
           </div>
         </a>
+      </div>
+    </div>
+
+    <div class="main-content m-10">
+      <div class="top-bar text-2xg flex justify-center p-6">
+        <h2 th:text="${title}" class="text-3xl"></h2>
+      </div>
+      <div class="content-area flex justify-center" >
+        <div layout:fragment="content"></div>
       </div>
     </div>
   </body>

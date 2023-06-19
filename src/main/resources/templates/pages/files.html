@@ -6,10 +6,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Files</title>
-</head>
-<body layout:fragment="content">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/files.css}" />-->
+    <link rel="stylesheet" type="text/css" href="/css/files.css" />
+    <style>
+        table {
+            width: 100%;
+            border-top: 1px solid #444444;
+            border-collapse: collapse;
+        }
 
-<div class="upload-container">
+        th, td {
+            border-bottom: 1px solid #444444;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body >
+
+<div layout:fragment="content" class="flex justify-center flex-col items-center upload-container">
     <div class="upload-header">
         <h2>File Upload / Download</h2>
     </div>
@@ -19,7 +34,9 @@
             <h3>Upload Single File</h3>
             <form id="singleUploadForm" name="singleUploadForm">
                 <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>
-                <button type="submit" class="primary submit-btn">Submit</button>
+                <button type="submit" class="primary submit-btn
+rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+">Submit</button>
             </form>
         </div>
 
@@ -27,7 +44,9 @@
             <h3>Upload Multiple Files</h3>
             <form id="multipleUploadForm" name="multipleUploadForm">
                 <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required/>
-                <button type="submit" class="primary submit-btn">Submit</button>
+                <button type="submit" class="primary submit-btn
+rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+">Submit</button>
             </form>
 
 

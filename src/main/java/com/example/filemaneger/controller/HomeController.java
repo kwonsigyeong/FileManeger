@@ -3,7 +3,6 @@ package com.example.filemaneger.controller;
 
 import com.example.filemaneger.file.domain.FilesEntity;
 import com.example.filemaneger.file.service.FileService;
-import com.example.filemaneger.file.service.FileServiceByJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+
 
 @Controller
 public class HomeController {
@@ -68,6 +67,7 @@ public class HomeController {
 
         return "pages/fileList";
     }
+
 
 
 
